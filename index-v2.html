@@ -202,6 +202,36 @@
       padding: 36px 20px 0;
     }
 
+    .hero-image-wrap {
+      position: relative;
+      width: 100%;
+      padding: 12px 16px 8px;
+      background: transparent;
+    }
+    .hero-image-card {
+      position: relative;
+      background: linear-gradient(180deg, #fff6f8 0%, #faf5f0 50%, #f5f3f6 100%);
+      border-radius: 18px;
+      box-shadow: 0 2px 12px rgba(255, 63, 138, 0.06), 0 6px 20px rgba(0, 0, 0, 0.05);
+      overflow: hidden;
+      padding: 10px;
+    }
+    .hero-image-card::after {
+      content: none;
+    }
+    .hero-product-image {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-height: 360px;
+      object-fit: cover;
+      position: relative;
+      z-index: 0;
+      mix-blend-mode: normal;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    }
+
     .hand {
       position: absolute;
       left: -24px; bottom: 8px;
@@ -1261,31 +1291,14 @@ function toggleReqAnno(btn) {
       <span aria-hidden="true"></span>
     </nav>
 
-    <section class="hero-wrap" aria-label="茶语抽纸优惠券">
-      <div class="hand" aria-hidden="true">
-        <span class="palm"></span>
-        <span class="finger one"></span>
-        <span class="finger two"></span>
+    <section class="hero-image-wrap" aria-label="美柚一心哺乳文胸">
+      <div class="hero-image-card">
+        <img src="美柚文胸.jpg" alt="美柚一心哺乳文胸内衣孕妇产后喂奶专用罩杯反重力防下垂聚拢背心" class="hero-product-image" />
       </div>
-      <article class="coupon">
-        <div class="daily-tag">每日可领一次</div>
-        <div class="coupon-content">
-          <p class="coupon-kicker">美柚会员专享</p>
-          <h1 class="coupon-title">茶语抽纸10元券</h1>
-          <div class="coupon-subtitle">5包到手8.8元</div>
-        </div>
-        <div class="tissue-stack" aria-hidden="true">
-          <span class="tissue-box b1"></span>
-          <span class="tissue-box b2"></span>
-          <span class="tissue-box b3"></span>
-          <span class="tissue-box b4"></span>
-        </div>
-        <div class="coupon-value">价值￥10</div>
-      </article>
     </section>
 
     <section class="claim-card" aria-label="领取美柚专享福利">
-      <h2 class="claim-title">美柚一心婴儿柔纸巾云柔巾新生儿宝宝手口专用超柔纸巾保湿乳霜纸</h2>
+      <h2 class="claim-title">美柚一心哺乳文胸内衣孕妇产后喂奶专用罩杯反重力防下垂聚拢背心</h2>
 
       <!-- 按钮区域：固定高度避免抖动 -->
       <div class="claim-button-area" id="buttonArea">
