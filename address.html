@@ -225,6 +225,11 @@
   </main>
 
   <script>
+    // 保留来源参数（from=panel 表示从面板进入，回传后重新打开面板）
+    const urlParams = new URLSearchParams(window.location.search);
+    const fromParam = urlParams.get("from") || "";
+    const fromQuery = fromParam ? `&from=${encodeURIComponent(fromParam)}` : "";
+
     const addressItems = document.querySelectorAll(".address-item");
     addressItems.forEach((item) => {
       item.addEventListener("click", () => {
@@ -234,7 +239,7 @@
         const name = encodeURIComponent(personEl ? personEl.children[0].textContent.trim() : "");
         const phone = encodeURIComponent(phoneEl ? phoneEl.textContent.trim() : "");
         const addr = encodeURIComponent(addressTextEl ? addressTextEl.textContent.trim() : "");
-        window.location.href = `./index.html?name=${name}&phone=${phone}&addr=${addr}`;
+        window.location.href = `./index.html?name=${name}&phone=${phone}&addr=${addr}${fromQuery}`;
       });
       item.addEventListener("keydown", (event) => {
         if (event.key === "Enter" || event.key === " ") {
