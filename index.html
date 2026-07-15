@@ -734,6 +734,85 @@
     }
     .overlay-confirm:active { transform: translateY(1px); box-shadow: 0 4px 10px rgba(255, 63, 138, 0.2); }
 
+    /* ── 二次确认弹窗 ── */
+    .confirm2 {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 220ms ease, visibility 220ms ease;
+    }
+    .confirm2.show { opacity: 1; visibility: visible; }
+    .confirm2-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.36);
+    }
+    .confirm2-box {
+      position: relative;
+      z-index: 1;
+      width: min(calc(100vw - 48px), 340px);
+      background: #fff;
+      border-radius: 18px;
+      padding: 32px 24px 20px;
+      box-shadow: 0 16px 48px rgba(0,0,0,0.18);
+      text-align: center;
+      transform: scale(0.92);
+      transition: transform 260ms cubic-bezier(0.22, 0.98, 0.32, 1);
+    }
+    .confirm2.show .confirm2-box { transform: scale(1); }
+    .confirm2-icon {
+      display: grid;
+      place-items: center;
+      width: 52px; height: 52px;
+      margin: 0 auto 16px;
+      border-radius: 50%;
+      background: #fff3e8;
+      font-size: 26px;
+    }
+    .confirm2-title {
+      margin: 0 0 8px;
+      font-size: 18px;
+      font-weight: 900;
+      color: #1f2126;
+    }
+    .confirm2-desc {
+      margin: 0 0 28px;
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .confirm2-btns {
+      display: flex;
+      gap: 12px;
+    }
+    .confirm2-btns button {
+      flex: 1;
+      height: 44px;
+      border: 0;
+      border-radius: 999px;
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 120ms ease, filter 120ms ease;
+    }
+    .confirm2-btns button:active { transform: translateY(1px); }
+    .confirm2-cancel {
+      background: #f0f0f2;
+      color: #6e7178;
+    }
+    .confirm2-cancel:hover { filter: brightness(0.97); }
+    .confirm2-ok {
+      background: linear-gradient(180deg, #ff4b91 0%, #fb3d82 100%);
+      color: #fff;
+      box-shadow: 0 6px 16px rgba(255, 63, 138, 0.22);
+    }
+    .confirm2-ok:hover { filter: brightness(1.04); }
+
     @media (min-width: 431px) {
       body { padding: 24px 0; }
       .page { border-radius: 28px; box-shadow: 0 24px 70px rgba(24,27,33,0.18); }
@@ -1004,7 +1083,12 @@ function toggleReqAnno(btn) {
 
 两个操作按钮：
 • "修改"：关闭弹窗 → 跳回地址选择页，用户可重新选择/编辑地址
-• "确认"：关闭弹窗 → 领取生效 → 页面切换为"已领取"状态 → 地址锁定
+• "确认领取"：弹出二次确认弹窗，防止误操作
+
+【二次确认弹窗】
+点击"确认领取"后弹出居中模态框，文案为"确认领取赠礼？领取后收货地址将不可修改"。
+• "取消"：关闭二次弹窗，回到确认地址弹窗
+• "确认领取"：领取生效 → 页面切换为"已领取"状态 → 地址锁定
 
 关键逻辑：
 • URL 传参触发：address.html 通过 ?name=&phone=&addr= 传回地址参数，页面检测到参数即弹窗
@@ -1028,7 +1112,21 @@ function toggleReqAnno(btn) {
           <button class="overlay-modify" id="overlayModify" type="button">修改</button>
         </div>
         <div class="overlay-hint">确认地址以后不可修改</div>
-        <button class="overlay-confirm" id="overlayConfirm" type="button">确认</button>
+        <button class="overlay-confirm" id="overlayConfirm" type="button">确认领取</button>
+      </div>
+    </div>
+
+    <!-- ── 二次确认弹窗 ── -->
+    <div class="confirm2" id="confirm2" role="dialog" aria-modal="true" aria-label="二次确认领取">
+      <div class="confirm2-backdrop" id="confirm2Backdrop"></div>
+      <div class="confirm2-box">
+        <div class="confirm2-icon">⚠️</div>
+        <h3 class="confirm2-title">确认领取赠礼？</h3>
+        <p class="confirm2-desc">领取后收货地址将不可修改，请确认信息无误</p>
+        <div class="confirm2-btns">
+          <button class="confirm2-cancel" id="confirm2Cancel" type="button">取消</button>
+          <button class="confirm2-ok" id="confirm2Ok" type="button">确认领取</button>
+        </div>
       </div>
     </div>
 
@@ -1057,8 +1155,13 @@ function toggleReqAnno(btn) {
     const overlayModify = document.getElementById("overlayModify");
     const overlayConfirm = document.getElementById("overlayConfirm");
 
-    let currentName = "", currentPhone = "", currentAddr = "";
-    let currentShipDaysText = "";
+    const confirm2 = document.getElementById("confirm2");
+    const confirm2Backdrop = document.getElementById("confirm2Backdrop");
+    const confirm2Cancel = document.getElementById("confirm2Cancel");
+    const confirm2Ok = document.getElementById("confirm2Ok");
+
+    let currentName = "测试2", currentPhone = "132****5555", currentAddr = "广西壮族自治区桂林市荔浦县85号";
+    let currentShipDaysText = `预计 ${getShipDaysText()} 个工作日内寄出`;
 
     const ADDRESS_PAGE = "./address.html";
 
@@ -1147,7 +1250,7 @@ function toggleReqAnno(btn) {
 
     // ── 点击免费领取 ──
     claimBtn.addEventListener("click", () => {
-      window.location.href = ADDRESS_PAGE;
+      showConfirmOverlay();
     });
 
     overlayBackdrop.addEventListener("click", hideConfirmOverlay);
@@ -1158,8 +1261,19 @@ function toggleReqAnno(btn) {
       window.location.href = ADDRESS_PAGE;
     });
 
-    // ── 确认领取 ──
+    // ── 确认领取（弹出二次确认） ──
     overlayConfirm.addEventListener("click", () => {
+      confirm2.classList.add("show");
+    });
+
+    confirm2Backdrop.addEventListener("click", () => {
+      confirm2.classList.remove("show");
+    });
+    confirm2Cancel.addEventListener("click", () => {
+      confirm2.classList.remove("show");
+    });
+    confirm2Ok.addEventListener("click", () => {
+      confirm2.classList.remove("show");
       hideConfirmOverlay();
       buttonArea.style.display = "none";
       claimedInline.style.display = "block";
