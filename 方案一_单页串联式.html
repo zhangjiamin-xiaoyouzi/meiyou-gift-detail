@@ -359,9 +359,10 @@
     }
 
     .claim-card {
+      min-height: 106px;
       padding: 17px 14px 19px;
       border-radius: var(--card-radius);
-      margin-top: 0;
+      transform: translateY(-28px);
     }
 
     .claim-title {
@@ -370,12 +371,11 @@
       font-weight: 900;
       line-height: 1.2;
       color: #33343a;
-      word-break: break-all;
     }
 
-    /* 按钮区域 */
+    /* 按钮区域：始终保持106px高度，避免布局抖动 */
     .claim-button-area {
-      min-height: 38px;
+      min-height: 106px;
       transition: opacity 300ms ease;
     }
 
@@ -440,22 +440,86 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      gap: 10px;
       margin-top: 12px;
       font-size: 15px;
       color: var(--muted);
       font-weight: 500;
     }
 
-    /* ── 收货地址常驻 ── */
-    .claimed-addr {
-      margin-top: 14px;
-      padding: 12px 14px;
-      border-radius: 10px;
-      background: #f6f6f8;
-      font-size: 14px;
-      line-height: 1.5;
+    .claimed-view-addr {
+      border: 0;
+      background: transparent;
+      color: var(--pink);
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      padding: 0;
+      text-decoration: underline;
     }
-    .claimed-addr-person {
+    .claimed-view-addr:hover { color: #e62e72; }
+
+    /* ── 折叠信息卡片 ── */
+    .info-collapse {
+      margin-top: 14px;
+      border-radius: 12px;
+      background: #f6f6f8;
+      overflow: hidden;
+      transition: all 350ms ease;
+    }
+
+    .info-collapse-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 14px;
+      cursor: pointer;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .info-collapse-header:active { background: rgba(0,0,0,0.03); }
+
+    .info-collapse-header-left {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #3d7eb3;
+    }
+    .info-collapse-header-left::before { content: "📦"; font-size: 16px; }
+
+    .info-collapse-arrow {
+      display: inline-block;
+      width: 20px; height: 20px;
+      transition: transform 300ms ease;
+      color: #9ca0a8;
+    }
+    .info-collapse-arrow svg { display: block; }
+    .info-collapse.open .info-collapse-arrow { transform: rotate(180deg); }
+
+    .info-collapse-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 400ms ease, padding 400ms ease;
+      padding: 0 14px;
+    }
+    .info-collapse.open .info-collapse-body {
+      max-height: 300px;
+      padding: 0 14px 14px;
+    }
+
+    .info-addr-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 12px;
+      border-radius: 10px;
+      background: var(--white);
+      margin-bottom: 10px;
+    }
+    .info-addr-card .addr-info { flex: 1; min-width: 0; }
+    .info-addr-card .addr-person {
       display: flex;
       align-items: baseline;
       gap: 10px;
@@ -464,8 +528,8 @@
       font-weight: 900;
       color: #1f2126;
     }
-    .claimed-addr-detail {
-      font-size: 13px;
+    .info-addr-card .addr-detail {
+      font-size: 14px;
       color: var(--muted);
       line-height: 1.4;
       overflow: hidden;
@@ -473,22 +537,23 @@
       white-space: nowrap;
     }
 
-    /* ── 物流行 ── */
-    .claimed-logistics {
+    .info-logistics-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-top: 10px;
-      padding: 10px 14px;
+      gap: 10px;
+      padding: 10px 12px;
       border-radius: 8px;
-      background: #f6f6f8;
-      font-size: 14px;
+      background: var(--white);
     }
-    .claimed-logistics-label {
+    .info-logistics-left { flex: 1; min-width: 0; }
+    .info-logistics-company {
+      font-size: 13px;
       font-weight: 600;
       color: var(--muted);
+      margin-bottom: 3px;
     }
-    .claimed-logistics-number {
+    .info-logistics-number {
       font-size: 15px;
       font-weight: 800;
       color: #1f2126;
@@ -557,46 +622,6 @@
     .paragraph.tight { margin-bottom: 28px; }
     .red { color: var(--danger); }
     .strong { color: #5e626a; font-weight: 850; }
-
-    /* ── 使用须知 ── */
-    .usage-notes {
-      margin: 24px 14px 40px;
-      border-radius: 14px;
-      background: rgba(255, 255, 255, 0.96);
-      box-shadow: var(--shadow);
-      overflow: hidden;
-    }
-
-    .usage-notes-header {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 18px 16px 12px;
-      border-bottom: 1px solid #f0f0f2;
-    }
-
-    .usage-notes-icon { font-size: 18px; line-height: 1; }
-
-    .usage-notes-title {
-      font-size: 17px;
-      font-weight: 850;
-      color: #33343a;
-    }
-
-    .usage-notes-body {
-      padding: 14px 16px 20px;
-    }
-
-    .usage-notes-body p {
-      margin: 0 0 8px;
-      font-size: 14px;
-      color: var(--muted);
-      line-height: 1.7;
-    }
-
-    .usage-notes-body p:last-child {
-      margin-bottom: 0;
-    }
 
     .home-indicator {
       position: fixed;
@@ -748,53 +773,6 @@
       .detail-card { font-size: 15px; }
     }
   </style>
-<style id="__req_tip_style2__">
-.req-anno-btn{display:inline-block;background:#e67e00;color:#fff;border:none;border-radius:3px;
-  padding:1px 7px;font-size:11px;line-height:18px;cursor:pointer;margin-right:8px;
-  vertical-align:middle;font-weight:600;opacity:.9}
-.req-anno-btn:hover{background:#cf6c00;opacity:1}
-.req-anno-box{display:none}
-#__req_modal__ *{box-sizing:border-box}
-</style>
-<script>
-function toggleReqAnno(btn) {
-  var box = btn.parentElement.querySelector('.req-anno-box');
-  if (!box) return;
-  if (document.getElementById('__req_modal__')) return;
-  var ov = document.createElement('div');
-  ov.id = '__req_modal__';
-  ov.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.45);'
-    + 'z-index:999998;display:flex;align-items:center;justify-content:center';
-  var card = document.createElement('div');
-  card.style.cssText = 'background:#fff;border-radius:8px;padding:24px 28px 20px;max-width:420px;'
-    + 'width:92%;box-shadow:0 8px 32px rgba(0,0,0,.22);position:relative;border-top:4px solid #e67e00';
-  var cls = document.createElement('button');
-  cls.innerHTML = '&times;';
-  cls.style.cssText = 'position:absolute;top:10px;right:14px;background:none;border:none;'
-    + 'font-size:22px;line-height:1;cursor:pointer;color:#aaa;padding:0';
-  cls.onclick = function () { ov.remove(); };
-  var ttl = document.createElement('div');
-  ttl.style.cssText = 'font-size:13px;font-weight:700;color:#e67e00;margin-bottom:12px;letter-spacing:.5px';
-  ttl.textContent = '📋 需求说明';
-  var body = document.createElement('div');
-  body.style.cssText = 'font-size:12px;color:#5a4000;line-height:1.9;'
-    + 'background:#fffbe6;padding:12px 14px;border-radius:6px;border-left:3px solid #e67e00;'
-    + 'max-height:60vh;overflow-y:auto';
-  var raw = box.innerHTML;
-  // 检查是否包含 HTML 标签（含 HTML 实体编码的标签）
-  var decoded = raw.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"');
-  if (/<[a-zA-Z]/.test(decoded)) {
-    body.innerHTML = decoded;
-  } else {
-    body.style.whiteSpace = 'pre-line';
-    body.textContent = box.textContent.trim();
-  }
-  card.appendChild(cls); card.appendChild(ttl); card.appendChild(body);
-  ov.appendChild(card);
-  ov.onclick = function (e) { if (e.target === ov) ov.remove(); };
-  document.body.appendChild(ov);
-}
-</script>
 </head>
 <body>
   <main class="page" aria-label="美柚会员福利领取页">
@@ -822,17 +800,7 @@ function toggleReqAnno(btn) {
       <span aria-hidden="true"></span>
     </nav>
 
-    <section class="hero-wrap" aria-label="茶语抽纸优惠券" style="position:relative;">
-      <button class="req-anno-btn" onclick="toggleReqAnno(this)" style="position:absolute;top:10px;right:10px;z-index:1">需求说明</button>
-      <div class="req-anno-box">【优惠券卡片模块】
-此模块为一张品牌优惠券图片，由区赠礼后台配置并上传。
-
-业务背景：
-• 美柚与第三方品牌（如心相印）联名推广，用户通过领券享受品牌折扣
-• 券面内容（品牌名、券名、面值、促销文案）统一由运营在后台配置
-• 前端不做文案编辑，仅渲染后台下发的图片/数据
-
-用户侧：点击优惠券区域的行为待定（跳转品牌页 or 无交互），当前版本为纯展示。</div>
+    <section class="hero-wrap" aria-label="茶语抽纸优惠券">
       <div class="hand" aria-hidden="true">
         <span class="palm"></span>
         <span class="finger one"></span>
@@ -855,26 +823,8 @@ function toggleReqAnno(btn) {
       </article>
     </section>
 
-    <section class="claim-card" aria-label="领取美柚专享福利" style="position:relative;">
-      <button class="req-anno-btn" onclick="toggleReqAnno(this)" style="position:absolute;top:10px;right:10px;z-index:1">需求说明</button>
-      <div class="req-anno-box">【领取卡片模块】
-用户领取赠礼的核心操作区，承载"免费领取→已领取"的完整流程。
-
-用户场景：
-• 领取前：用户浏览商品信息 → 点击"免费领取" → 跳转地址选择页填写收货信息
-• 领取后：用户确认地址后回到本页，按钮变为灰色"已领取"，不可再次点击
-
-业务规则：
-• 每个用户仅可领取一次，状态切换后不可逆
-• 已领取用户再次访问本页，直接展示"已领取"状态（需后端返回领取记录）
-• 未领取用户可多次进出地址页，但一旦在确认浮层点击"确认"即锁定
-
-展示顺序：预计寄出时间 → 收货地址（常驻） → 物流信息（按发货状态动态切换）
-
-异常场景：
-• 商品库存不足时，"免费领取"按钮置灰并提示"已领完"
-• 用户未登录/非会员时，点击按钮应引导登录或提示无权限</div>
-      <h2 class="claim-title">美柚一心婴儿柔纸巾云柔巾新生儿宝宝手口专用超柔纸巾保湿乳霜纸</h2>
+    <section class="claim-card" aria-label="领取美柚专享福利">
+      <h2 class="claim-title">领取美柚专享福利</h2>
 
       <!-- 按钮区域：固定高度避免抖动 -->
       <div class="claim-button-area" id="buttonArea">
@@ -885,138 +835,73 @@ function toggleReqAnno(btn) {
       <div class="claimed-inline" id="claimedInline" style="display:none;">
         <div class="claimed-btn-grey">已领取</div>
         <div class="claimed-status-row">
-          <span id="claimedDays">预计 7 个工作日内寄出</span>
+          <span id="claimedDays">预计 3 个工作日内寄出</span>
+          <button class="claimed-view-addr" id="viewAddrBtn" type="button">查看收货地址</button>
         </div>
 
-        <!-- 收货地址常驻 -->
-        <div class="claimed-addr" id="claimedAddr" style="position:relative;">
-          <button class="req-anno-btn" onclick="toggleReqAnno(this)" style="position:absolute;top:6px;right:6px;z-index:1">需求说明</button>
-          <div class="req-anno-box">【收货地址展示】
-确认领取后常驻展示用户的收货信息，数据来源于地址选择页用户提交的内容。
-
-展示规则：
-• 收件人姓名：完整展示（如"张三"），不做脱敏——用户需核对是否为自己
-• 手机号：中间 4 位脱敏（如 132****5555），保护隐私
-• 详细地址：完整展示省/市/区 + 街道门牌号
-
-业务约束：
-• 地址在用户点击"确认"后即锁定，前端不可编辑
-• 若用户发现地址有误，唯一路径为联系客服人工修改（第 5 条使用须知留有客服电话）
-• 设计上：浅灰底色（#f6f6f8）与白色卡片区分，视觉上弱于主操作区，暗示"只读"</div>
-          <div class="claimed-addr-person">
-            <span id="infoName">测试2</span>
-            <span id="infoPhone">132****5555</span>
+        <!-- 折叠信息卡片 -->
+        <div class="info-collapse" id="infoCollapse">
+          <div class="info-collapse-header" id="collapseHeader">
+            <span class="info-collapse-header-left">物流信息</span>
+            <span class="info-collapse-arrow">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M6 8l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
           </div>
-          <div class="claimed-addr-detail" id="infoAddr">广西壮族自治区桂林市荔浦县85号</div>
-        </div>
-
-        <!-- 物流行：未发货 / 已发货 -->
-        <div class="claimed-logistics" id="claimedLogistics" style="position:relative;">
-          <button class="req-anno-btn" onclick="toggleReqAnno(this)" style="position:absolute;top:6px;right:6px;z-index:1">需求说明</button>
-          <div class="req-anno-box">
-&lt;div style="background:#f6f6f8;border-radius:8px;padding:12px 14px;font-family:sans-serif;"&gt;
-
-&lt;div style="margin-bottom:14px;"&gt;
-&lt;span style="font-weight:700;color:#555;"&gt;── 无物流单号（未发货）──&lt;/span&gt;&lt;br&gt;
-&lt;span style="color:#6e7178;font-size:14px;"&gt;🚚 等待发货&lt;/span&gt;
-&lt;/div&gt;
-
-&lt;div style="display:flex;align-items:center;justify-content:space-between;"&gt;
-&lt;div&gt;
-&lt;span style="font-weight:700;color:#555;"&gt;── 有物流单号（已发货）──&lt;/span&gt;&lt;br&gt;
-&lt;span style="font-size:13px;color:#6e7178;"&gt;顺丰速运&lt;/span&gt;&lt;br&gt;
-&lt;span style="font-size:15px;font-weight:800;color:#1f2126;"&gt;SF1234567890&lt;/span&gt;
-&lt;/div&gt;
-&lt;span style="border:1.5px solid #ff3f8a;border-radius:999px;padding:4px 14px;color:#ff3f8a;font-size:13px;font-weight:800;"&gt;复制&lt;/span&gt;
-&lt;/div&gt;
-
-&lt;/div&gt;
-
-【物流信息展示】
-后台运营录入物流单号后，此处从未发货切换为已发货状态（两种形态见上图对比）。
-
-状态切换逻辑：
-• 未发货：灰色文字"🚚 等待发货"，纯文本，无可操作按钮
-• 已发货：快递公司名称 + 物流单号 + 粉色"复制"按钮
-
-交互细节：
-• 复制按钮：点击一键复制单号到剪贴板，成功后按钮变绿色"已复制"（2秒恢复）
-• 单号文本支持长按选中（方便用户手动复制或去快递官网查询）
-
-触发条件：
-• 后台运营在赠礼订单管理系统中录入快递公司和单号后，前端刷新即展示
-• 如录入后用户端未更新，检查：① 订单状态是否已同步 ② 物流信息接口是否正常返回
-
-用户价值：让用户在本页即可追踪物流，无需跳转到快递官网或客服咨询。</div>
-          <div class="claimed-logistics-inner" id="claimedLogisticsInner">
-            <span class="claimed-logistics-label">🚚 等待发货</span>
+          <div class="info-collapse-body">
+            <div class="info-addr-card">
+              <div class="addr-info">
+                <div class="addr-person">
+                  <span id="infoName">测试2</span>
+                  <span id="infoPhone">132****5555</span>
+                </div>
+                <div class="addr-detail" id="infoAddr">广西壮族自治区桂林市荔浦县85号</div>
+              </div>
+            </div>
+            <div class="info-logistics-row">
+              <div class="info-logistics-left">
+                <div class="info-logistics-company" id="logisticsCompany">顺丰速运</div>
+                <div class="info-logistics-number" id="logisticsNumber">SF1234567890</div>
+              </div>
+              <button class="logistics-copy-btn" id="logisticsCopyBtn" type="button">复制</button>
+            </div>
           </div>
         </div>
+      </div>
     </section>
 
-    <!-- ── 使用须知 ── -->
-    <div class="usage-notes" style="position:relative;">
-      <button class="req-anno-btn" onclick="toggleReqAnno(this)" style="position:absolute;top:10px;right:10px;z-index:1">需求说明</button>
-      <div class="req-anno-box">【使用须知模块】
-面向用户的规则说明区，帮助用户了解领取条件、发货时效、售后渠道。
-
-内容管理：
-• 文案由后台运营统一配置，支持多条规则自由增删改
-• 当前展示 5 条为默认模板，各条含义如下：
-
-各条业务含义：
-• 第 1 条（仅限会员）：需与会员系统联动——非会员进入本页应看到领取按钮置灰或引导开通会员
-• 第 2 条（地址不可修改）：告知用户确认前仔细核对，降低客服改址工单量
-• 第 3 条（发货时效）：X 为占位符，具体工作日数由运营确认后填入，用户预期管理的关键信息
-• 第 4 条（缺货延期）：兜底条款，避免因供应链问题引发用户投诉
-• 第 5 条（客服电话）：需配置为实际运营号码，正常展示而非占位符</div>
-      <div class="usage-notes-header">
-        <span class="usage-notes-icon">📋</span>
-        <span class="usage-notes-title">使用须知</span>
-      </div>
-      <div class="usage-notes-body" id="usageNotesBody">
-        <p>1、本福利为美柚会员专属赠礼，仅限会员领取使用。</p>
-        <p>2、请确保收货地址准确无误，提交后将无法修改。</p>
-        <p>3、赠礼将在确认领取后 7 个工作日内寄出，物流信息可在本页查看。</p>
-        <p>4、如遇缺货等特殊情况，发货时间可能延长，敬请谅解。</p>
-        <p>5、如有疑问请联系美柚客服：400-xxx-xxxx。</p>
-      </div>
-    </div>
+    <section class="detail-card" aria-label="福利详情">
+      <h2 class="section-title">福利详情：</h2>
+      <p class="paragraph tight">
+        心相印10元抽纸券，适用于心相印茶语丝享抽纸100抽*5包，
+        <span class="red">到手8.8元</span>
+      </p>
+      <h2 class="section-title">领取流程：</h2>
+      <p class="paragraph">
+        1、点击上方"立即领取"按钮，获得兑换码，复制兑换码。
+        <span class="strong">福利每日可领1次</span><br>
+        2、兑换路径：恒安官方会员商城小程序-我的-兑换中心-输入兑换码即可
+      </p>
+      <h2 class="section-title">使用说明：</h2>
+      <p class="paragraph">
+        1、兑换码有效期：截止2026年12月31日，请在有效期内完成兑换，逾期作废<br>
+        2、本优惠券新老用户均可使用，每个订单限用1张，不与其他优惠叠加<br>
+        3、兑换后路径查询：可在"恒安官方会员商城"微信小程序底部导航栏【我的】-【全部订单】中查看<br>
+        4、本优惠券仅原价购买商品时可用<br>
+        5、本优惠券不可二次销售，不可兑现
+      </p>
+    </section>
 
     <span class="home-indicator" aria-hidden="true"></span>
 
     <!-- ── 确认地址浮层 ── -->
     <div class="overlay" id="confirmOverlay" role="dialog" aria-modal="true" aria-label="确认收货地址">
       <div class="overlay-backdrop" id="overlayBackdrop"></div>
-      <div class="overlay-panel" id="overlayPanel" style="position:relative;">
-        <button class="req-anno-btn" onclick="toggleReqAnno(this)" style="position:absolute;top:10px;right:10px;z-index:1">需求说明</button>
-        <div class="req-anno-box">【确认地址浮层】
-用户在地址选择页提交后，返回本页自动弹出此浮层，完成最终确认即进入"已领取"状态。
-
-为什么需要这一步：
-• 地址选择页（address.html）是外部页面，用户可能误操作或中途退出
-• 回到本页再次确认，给用户最后一次核对机会，降低错发率
-
-交互设计：
-• 底部半屏面板弹出，带拖拽手柄（暗示可下滑关闭），同时支持点击遮罩关闭
-• 展示内容：收件人姓名 + 脱敏手机号 + 完整地址
-• 寄出时间提示："预计 7 个工作日内寄出"
-
-两个操作按钮：
-• "修改"：关闭弹窗 → 跳回地址选择页，用户可重新选择/编辑地址
-• "确认"：关闭弹窗 → 领取生效 → 页面切换为"已领取"状态 → 地址锁定
-
-关键逻辑：
-• URL 传参触发：address.html 通过 ?name=&phone=&addr= 传回地址参数，页面检测到参数即弹窗
-• 防重复弹窗：确认后立即清除 URL 参数（history.replaceState），用户刷新页面不会再次弹窗
-• 若用户关闭弹窗但不点"确认"，下次进入仍会弹出（参数未清除）
-
-边界情况：
-• 用户直接带参数访问（如分享链接）：同样触发弹窗，保证流程完整性
-• 已领取用户带参数访问：不应弹窗，直接展示"已领取"状态</div>
+      <div class="overlay-panel" id="overlayPanel">
         <div class="overlay-handle" aria-hidden="true"></div>
         <h2 class="overlay-title">请确认收货地址</h2>
-        <p class="overlay-days" id="overlayDays">预计 7 个工作日内寄出</p>
+        <p class="overlay-days" id="overlayDays">预计 3 个工作日内寄出</p>
         <div class="overlay-addr-card">
           <div class="overlay-addr-info">
             <div class="overlay-addr-person">
@@ -1032,6 +917,25 @@ function toggleReqAnno(btn) {
       </div>
     </div>
 
+    <!-- ── 只读地址浮层 ── -->
+    <div class="overlay" id="readonlyOverlay" role="dialog" aria-modal="true" aria-label="查看收货地址">
+      <div class="overlay-backdrop" id="readonlyBackdrop"></div>
+      <div class="overlay-panel">
+        <div class="overlay-handle" aria-hidden="true"></div>
+        <h2 class="overlay-title">收货地址</h2>
+        <div class="overlay-addr-card" style="margin-bottom:0;">
+          <div class="overlay-addr-info">
+            <div class="overlay-addr-person">
+              <span id="readonlyName"></span>
+              <span id="readonlyPhone"></span>
+            </div>
+            <div class="overlay-addr-detail" id="readonlyAddr"></div>
+          </div>
+        </div>
+        <button class="overlay-confirm" id="readonlyClose" type="button" style="margin-top:28px;background:#d9dae0;box-shadow:none;color:#33343a;">关闭</button>
+      </div>
+    </div>
+
     <!-- Toast -->
     <div class="toast" id="toast"></div>
   </main>
@@ -1041,11 +945,15 @@ function toggleReqAnno(btn) {
     const buttonArea = document.getElementById("buttonArea");
     const claimedInline = document.getElementById("claimedInline");
     const claimedDays = document.getElementById("claimedDays");
+    const viewAddrBtn = document.getElementById("viewAddrBtn");
+    const infoCollapse = document.getElementById("infoCollapse");
+    const collapseHeader = document.getElementById("collapseHeader");
     const infoName = document.getElementById("infoName");
     const infoPhone = document.getElementById("infoPhone");
     const infoAddr = document.getElementById("infoAddr");
-    const claimedLogistics = document.getElementById("claimedLogistics");
-    const claimedLogisticsInner = document.getElementById("claimedLogisticsInner");
+    const logisticsCompany = document.getElementById("logisticsCompany");
+    const logisticsNumber = document.getElementById("logisticsNumber");
+    const logisticsCopyBtn = document.getElementById("logisticsCopyBtn");
     const toast = document.getElementById("toast");
 
     const confirmOverlay = document.getElementById("confirmOverlay");
@@ -1056,13 +964,19 @@ function toggleReqAnno(btn) {
     const overlayDays = document.getElementById("overlayDays");
     const overlayModify = document.getElementById("overlayModify");
     const overlayConfirm = document.getElementById("overlayConfirm");
+    const readonlyOverlay = document.getElementById("readonlyOverlay");
+    const readonlyBackdrop = document.getElementById("readonlyBackdrop");
+    const readonlyName = document.getElementById("readonlyName");
+    const readonlyPhone = document.getElementById("readonlyPhone");
+    const readonlyAddr = document.getElementById("readonlyAddr");
+    const readonlyClose = document.getElementById("readonlyClose");
 
     let currentName = "", currentPhone = "", currentAddr = "";
     let currentShipDaysText = "";
 
-    const ADDRESS_PAGE = "./address.html";
+    const ADDRESS_PAGE = "./方案一_地址页.html";
 
-    function getShipDaysText() { return "7"; }
+    function randomShipDays() { return Math.floor(Math.random() * 5) + 2; }
 
     // ── Toast ──
     let toastTimer = null;
@@ -1083,9 +997,7 @@ function toggleReqAnno(btn) {
         currentName = decodeURIComponent(name);
         currentPhone = decodeURIComponent(phone);
         currentAddr = decodeURIComponent(addr);
-        currentShipDaysText = `预计 ${getShipDaysText()} 个工作日内寄出`;
-        // 清除 URL 参数，避免刷新重复弹窗
-        history.replaceState(null, "", window.location.pathname);
+        currentShipDaysText = `预计 ${randomShipDays()} 个工作日内寄出`;
         showConfirmOverlay();
       }
     }
@@ -1100,49 +1012,23 @@ function toggleReqAnno(btn) {
 
     function hideConfirmOverlay() { confirmOverlay.classList.remove("show"); }
 
+    function showReadonlyOverlay() {
+      readonlyName.textContent = currentName;
+      readonlyPhone.textContent = currentPhone;
+      readonlyAddr.textContent = currentAddr;
+      readonlyOverlay.classList.add("show");
+    }
+
+    function hideReadonlyOverlay() { readonlyOverlay.classList.remove("show"); }
+
     // ── 同步已领取状态到行内区 ──
     function syncClaimedState() {
       claimedDays.textContent = currentShipDaysText;
       infoName.textContent = currentName;
       infoPhone.textContent = currentPhone;
       infoAddr.textContent = currentAddr;
-      // 初始：等待发货
-      claimedLogisticsInner.innerHTML = '<span class="claimed-logistics-label">🚚 等待发货</span>';
-    }
-
-    // ── 模拟后台发货（调用此函数切换为已发货） ──
-    function setShipped(company, number) {
-      claimedLogisticsInner.innerHTML = `
-        <div style="flex:1;min-width:0;">
-          <div style="font-size:13px;font-weight:600;color:var(--muted);margin-bottom:3px;">${company}</div>
-          <span class="claimed-logistics-number">${number}</span>
-        </div>
-        <button class="logistics-copy-btn" id="logisticsCopyBtn" type="button">复制</button>
-      `;
-      // 绑定复制事件
-      const copyBtn = document.getElementById("logisticsCopyBtn");
-      if (copyBtn) {
-        copyBtn.addEventListener("click", async () => {
-          const num = number;
-          try {
-            await navigator.clipboard.writeText(num);
-          } catch {
-            const ta = document.createElement("textarea");
-            ta.value = num;
-            document.body.appendChild(ta);
-            ta.select();
-            document.execCommand("copy");
-            document.body.removeChild(ta);
-          }
-          copyBtn.textContent = "已复制";
-          copyBtn.classList.add("copied");
-          showToast("已复制");
-          setTimeout(() => {
-            copyBtn.textContent = "复制";
-            copyBtn.classList.remove("copied");
-          }, 2000);
-        });
-      }
+      logisticsCompany.textContent = "顺丰速运";
+      logisticsNumber.textContent = "SF" + String(Math.floor(Math.random() * 10000000000)).padStart(10, "0");
     }
 
     // ── 点击免费领取 ──
@@ -1164,7 +1050,43 @@ function toggleReqAnno(btn) {
       buttonArea.style.display = "none";
       claimedInline.style.display = "block";
       syncClaimedState();
+      // 自动展开物流卡片
+      infoCollapse.classList.add("open");
     });
+
+    // ── 查看收货地址 ──
+    viewAddrBtn.addEventListener("click", showReadonlyOverlay);
+
+    // ── 折叠信息卡片 ──
+    collapseHeader.addEventListener("click", () => {
+      infoCollapse.classList.toggle("open");
+    });
+
+    // ── 复制物流单号 ──
+    logisticsCopyBtn.addEventListener("click", async () => {
+      const number = logisticsNumber.textContent;
+      try {
+        await navigator.clipboard.writeText(number);
+      } catch {
+        const ta = document.createElement("textarea");
+        ta.value = number;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        document.body.removeChild(ta);
+      }
+      logisticsCopyBtn.textContent = "已复制";
+      logisticsCopyBtn.classList.add("copied");
+      showToast("已复制");
+      setTimeout(() => {
+        logisticsCopyBtn.textContent = "复制";
+        logisticsCopyBtn.classList.remove("copied");
+      }, 2000);
+    });
+
+    // ── 只读浮层关闭 ──
+    readonlyBackdrop.addEventListener("click", hideReadonlyOverlay);
+    readonlyClose.addEventListener("click", hideReadonlyOverlay);
 
     parseAddressFromURL();
   </script>
