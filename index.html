@@ -198,8 +198,8 @@
 
     .hero-wrap {
       position: relative;
-      height: 258px;
-      padding: 36px 20px 0;
+      height: 274px;
+      padding: 10px 14px 0;
     }
 
     .hand {
@@ -229,126 +229,22 @@
     .finger.one { left: 52px; top: 10px; transform: rotate(-2deg); }
     .finger.two { left: 28px; top: 28px; height: 78px; transform: rotate(-12deg); }
 
-    .coupon {
+    .coupon-img-wrap {
       position: relative;
       z-index: 2;
-      height: 176px;
-      border-radius: 18px 18px 13px 13px;
-      overflow: hidden;
-      background:
-        radial-gradient(ellipse at 68% 68%, rgba(248, 255, 205, 0.38), transparent 30%),
-        linear-gradient(107deg, #7ddd3c 0%, #45c91c 45%, #31b510 100%);
-      box-shadow: 0 16px 26px rgba(67, 156, 13, 0.2);
+      width: 100%;
+      height: 100%;
+      padding: 10px;
       transform: rotate(-2.7deg);
     }
-    .coupon::before {
-      position: absolute;
-      right: -62px; bottom: -54px;
-      width: 360px; height: 125px;
-      border-radius: 50%;
-      background:
-        linear-gradient(180deg, rgba(250, 255, 197, 0.52), rgba(67, 190, 29, 0.16)),
-        repeating-linear-gradient(160deg, rgba(255, 255, 255, 0.22) 0 1px, transparent 1px 8px);
-      transform: rotate(-7deg);
-      content: "";
-    }
-    .coupon::after {
-      position: absolute;
-      left: 22px; right: 120px; bottom: 35px;
-      height: 38px;
-      border-radius: 100%;
-      border-top: 2px solid rgba(255, 255, 255, 0.2);
-      transform: rotate(-5deg);
-      content: "";
-    }
-
-    .daily-tag {
-      position: absolute; top: 0; right: 0;
-      z-index: 4;
-      padding: 8px 17px 9px;
-      border-radius: 0 16px 0 16px;
-      background: rgba(45, 51, 39, 0.86);
-      color: #f4f6d2;
-      font-size: 17px;
-      font-weight: 750;
-      white-space: nowrap;
-    }
-
-    .coupon-content {
-      position: relative;
-      z-index: 3;
+    .coupon-img-wrap img {
+      width: 100%;
       height: 100%;
-      padding: 40px 24px 20px;
-      color: #fff;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+      object-fit: cover;
+      display: block;
     }
-    .coupon-kicker {
-      margin: 0 0 14px;
-      color: rgba(27, 120, 19, 0.72);
-      font-size: 19px;
-      font-weight: 900;
-    }
-    .coupon-title {
-      margin: 0;
-      font-size: clamp(30px, 8.4vw, 38px);
-      font-weight: 950;
-      line-height: 1;
-      text-shadow: 0 2px 0 rgba(46, 164, 23, 0.12);
-      white-space: nowrap;
-    }
-    .coupon-subtitle {
-      margin-top: 16px;
-      font-size: 22px;
-      font-weight: 900;
-      line-height: 1;
-    }
-    .coupon-value {
-      position: absolute;
-      right: 24px; bottom: 17px;
-      z-index: 5;
-      color: rgba(255, 255, 255, 0.78);
-      font-size: 18px;
-      font-weight: 850;
-    }
-
-    .tissue-stack {
-      position: absolute;
-      top: 44px; right: 16px;
-      z-index: 4;
-      width: 124px; height: 92px;
-      transform: rotate(1.7deg);
-    }
-    .tissue-box {
-      position: absolute;
-      width: 76px; height: 44px;
-      border: 1px solid rgba(45, 137, 27, 0.18);
-      border-radius: 3px;
-      background:
-        linear-gradient(178deg, rgba(255, 255, 255, 0.82) 0 28%, transparent 29%),
-        linear-gradient(14deg, #e8ffe4 0 38%, #83e83f 39% 70%, #f9ffe6 71% 100%);
-      box-shadow: 0 4px 10px rgba(33, 99, 18, 0.16);
-    }
-    .tissue-box::before {
-      position: absolute;
-      top: -8px; left: 28px;
-      width: 38px; height: 18px;
-      border-radius: 18px 18px 4px 4px;
-      background: linear-gradient(180deg, #fff, #edf2ef);
-      box-shadow: 0 1px 5px rgba(54, 87, 39, 0.14);
-      content: "";
-    }
-    .tissue-box::after {
-      position: absolute;
-      top: 19px; left: 23px;
-      color: #4a3428;
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: 8px;
-      font-weight: 900;
-      content: "心相印";
-    }
-    .tissue-box.b1 { left: 10px; top: 0; }
-    .tissue-box.b2 { left: 44px; top: 5px; transform: scale(0.95); }
-    .tissue-box.b3 { left: 4px; top: 42px; transform: scale(0.92); }
-    .tissue-box.b4 { left: 42px; top: 47px; transform: scale(0.88); }
 
     .claim-card, .detail-card {
       position: relative;
@@ -902,7 +798,7 @@ function toggleReqAnno(btn) {
     </nav>
 
     <section class="hero-wrap" aria-label="茶语抽纸优惠券" style="position:relative;">
-      <button class="req-anno-btn" onclick="toggleReqAnno(this)" style="position:absolute;top:10px;right:10px;z-index:1">需求说明</button>
+      <button class="req-anno-btn" onclick="toggleReqAnno(this)" style="position:absolute;top:10px;right:10px;z-index:20">需求说明</button>
       <div class="req-anno-box">【优惠券卡片模块】
 此模块为一张品牌优惠券图片，由区赠礼后台配置并上传。
 
@@ -912,30 +808,13 @@ function toggleReqAnno(btn) {
 • 前端不做文案编辑，仅渲染后台下发的图片/数据
 
 用户侧：点击优惠券区域的行为待定（跳转品牌页 or 无交互），当前版本为纯展示。</div>
-      <div class="hand" aria-hidden="true">
-        <span class="palm"></span>
-        <span class="finger one"></span>
-        <span class="finger two"></span>
+      <div class="coupon-img-wrap">
+        <img src="美柚纸巾.jpg" alt="茶语抽纸优惠券" />
       </div>
-      <article class="coupon">
-        <div class="daily-tag">每日可领一次</div>
-        <div class="coupon-content">
-          <p class="coupon-kicker">美柚会员专享</p>
-          <h1 class="coupon-title">茶语抽纸10元券</h1>
-          <div class="coupon-subtitle">5包到手8.8元</div>
-        </div>
-        <div class="tissue-stack" aria-hidden="true">
-          <span class="tissue-box b1"></span>
-          <span class="tissue-box b2"></span>
-          <span class="tissue-box b3"></span>
-          <span class="tissue-box b4"></span>
-        </div>
-        <div class="coupon-value">价值￥10</div>
-      </article>
     </section>
 
     <section class="claim-card" aria-label="领取美柚专享福利" style="position:relative;">
-      <button class="req-anno-btn" onclick="toggleReqAnno(this)" style="position:absolute;top:10px;right:10px;z-index:1">需求说明</button>
+      <button class="req-anno-btn" onclick="toggleReqAnno(this)" style="position:absolute;top:10px;right:10px;z-index:20">需求说明</button>
       <div class="req-anno-box">【领取卡片模块】
 用户领取赠礼的核心操作区，承载"免费领取→已领取"的完整流程。
 
@@ -969,7 +848,7 @@ function toggleReqAnno(btn) {
 
         <!-- 收货地址常驻 -->
         <div class="claimed-addr" id="claimedAddr" style="position:relative;">
-          <button class="req-anno-btn" onclick="toggleReqAnno(this)" style="position:absolute;top:6px;right:6px;z-index:1">需求说明</button>
+          <button class="req-anno-btn" onclick="toggleReqAnno(this)" style="position:absolute;top:6px;right:6px;z-index:20">需求说明</button>
           <div class="req-anno-box">【收货地址展示】
 确认领取后常驻展示用户的收货信息，数据来源于地址选择页用户提交的内容。
 
@@ -991,7 +870,7 @@ function toggleReqAnno(btn) {
 
         <!-- 物流行：未发货 / 已发货 -->
         <div class="claimed-logistics" id="claimedLogistics" style="position:relative;">
-          <button class="req-anno-btn" onclick="toggleReqAnno(this)" style="position:absolute;top:6px;right:6px;z-index:1">需求说明</button>
+          <button class="req-anno-btn" onclick="toggleReqAnno(this)" style="position:absolute;top:6px;right:6px;z-index:20">需求说明</button>
           <div class="req-anno-box">
 &lt;div style="background:#f6f6f8;border-radius:8px;padding:12px 14px;font-family:sans-serif;"&gt;
 
@@ -1035,7 +914,7 @@ function toggleReqAnno(btn) {
 
     <!-- ── 使用须知 ── -->
     <div class="usage-notes" style="position:relative;">
-      <button class="req-anno-btn" onclick="toggleReqAnno(this)" style="position:absolute;top:10px;right:10px;z-index:1">需求说明</button>
+      <button class="req-anno-btn" onclick="toggleReqAnno(this)" style="position:absolute;top:10px;right:10px;z-index:20">需求说明</button>
       <div class="req-anno-box">【使用须知模块】
 面向用户的规则说明区，帮助用户了解领取条件、发货时效、售后渠道。
 
@@ -1068,7 +947,7 @@ function toggleReqAnno(btn) {
     <div class="overlay" id="confirmOverlay" role="dialog" aria-modal="true" aria-label="确认收货地址">
       <div class="overlay-backdrop" id="overlayBackdrop"></div>
       <div class="overlay-panel" id="overlayPanel" style="position:relative;">
-        <button class="req-anno-btn" onclick="toggleReqAnno(this)" style="position:absolute;top:10px;right:10px;z-index:1">需求说明</button>
+        <button class="req-anno-btn" onclick="toggleReqAnno(this)" style="position:absolute;top:10px;right:10px;z-index:20">需求说明</button>
         <div class="req-anno-box">【确认地址浮层】
 用户在地址选择页提交后，返回本页自动弹出此浮层，完成最终确认即进入"已领取"状态。
 
