@@ -1,0 +1,129 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script><script>mermaid.initialize({startOnLoad:true,theme:"default",securityLevel:"loose"});window.mermaidReady=false;window.addEventListener("load",function(){setTimeout(function(){window.mermaidReady=true;},3000);});</script><style>body{font-family:sans-serif;margin:20px;background:#fff}.diagram{margin:20px 0;padding:16px;border:1px solid #e0e0e0;border-radius:8px;background:#fafafa}h2{color:#333;font-size:16px;margin:24px 0 8px 0}.mermaid svg{max-width:100%}</style></head><body><h2>1. E-R 图</h2>
+<div class="diagram" id="diagram-0"><div class="mermaid">
+erDiagram
+    会员 ||--o{ 领取记录 : "发起"
+    会员 {
+        string 会员ID
+        string 昵称
+        string 手机号
+    }
+    领取记录 {
+        int 记录ID
+        string 尺码
+        string 地址JSON
+        string 物流公司
+        string 物流单号
+        datetime 创建时间
+        string 状态
+    }
+    赠礼SKU ||--o{ 领取记录 : "被领取"
+    赠礼SKU {
+        int SKU_ID
+        string 尺码
+        int 库存
+        string 商品名称
+    }
+    收货地址 ||--o{ 领取记录 : "关联"
+    收货地址 {
+        int 地址ID
+        string 会员ID
+        string 收件人
+        string 手机号
+        string 省
+        string 市
+        string 区
+        string 详细地址
+    }
+</div></div>
+<h2>2. 产品结构图</h2>
+<div class="diagram" id="diagram-1"><div class="mermaid">
+mindmap
+  root((赠礼详情页V2))
+    商品展示区
+      商品大图_卡中卡布局
+      商品标题
+    领取操作区
+      免费领取按钮
+      已领取状态
+        收货信息卡片
+        物流信息行
+    尺码地址合并面板
+      尺码选择区
+        尺码标签_水平滚动
+        骨架屏加载
+        全缺货提示
+        加载失败重试
+      收货地址区
+        地址卡片
+        无地址空状态
+      确认领取按钮
+      不可修改提示
+    二次确认弹窗
+      确认信息展示
+      取消按钮
+      确认领取按钮
+      页面滚动锁定
+    使用须知区
+</div></div>
+<h2>3. 产品流程图</h2>
+<div class="diagram" id="diagram-2"><div class="mermaid">
+flowchart TD
+    subgraph 会员["会员"]
+        A[进入赠礼详情页]
+        C[点击免费领取]
+        N[选择尺码]
+        P[点击确认领取]
+        R[取消_回到面板]
+        S[确认领取]
+    end
+
+    subgraph 前端["前端系统"]
+        B{是否已领取}
+        D[展示免费领取按钮]
+        E[展示已领取状态]
+        F[弹出尺码地址合并面板]
+        G{加载库存}
+        H[展示尺码标签_默认地址]
+        I[显示加载失败_重试]
+        J{是否有地址}
+        K[展示地址卡片]
+        L[展示空状态_去配置地址]
+        M[跳转地址选择页]
+        O[确认按钮激活]
+        Q[弹出二次确认弹窗_锁滚动]
+        T[关闭面板_切换已领取状态]
+    end
+
+    subgraph 后端["后端系统"]
+        U[返回库存数据]
+        V[返回默认地址]
+        W[提交领取请求]
+    end
+
+    A --> B
+    B -->|否| D
+    B -->|是| E
+    D --> C
+    C --> F
+    F --> G
+    G -->|成功| H
+    G -->|失败| I
+    I --> F
+    H --> J
+    J -->|有| K
+    J -->|无| L
+    L --> M
+    M -->|回传地址| F
+    H --> U
+    F --> V
+    K --> N
+    N --> O
+    O --> P
+    P --> Q
+    Q -->|取消| R
+    R --> F
+    Q -->|确认| S
+    S --> W
+    W --> T
+    T --> E
+</div></div></body></html>
